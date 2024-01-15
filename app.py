@@ -16,7 +16,8 @@ st.set_page_config(page_title="Job Searches",page_icon="random",initial_sidebar_
 
 st.header("Job Portal")
 
-url = "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&searchTextSrc=as&searchTextText=Python&txtKeywords=Python&txtLocation="
+# url = "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&searchTextSrc=as&searchTextText=Python&txtKeywords=Python&txtLocation="
+url = "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&searchTextSrc=&searchTextText=&txtKeywords=Javascript&txtLocation="
 response = requests.get(url)
 # print(response)
 
@@ -51,13 +52,15 @@ for job in jobs:
     publish_date=job.find("span", class_="sim-posted").text.strip()
     if publish_date != "Posted few days ago":
         continue
-    job_post = job.find("h1",class_="jd-job-title")
+    job_title = job.header.h2.text
+    # job_post  =  job.find_all("h2").text
+
     company_name = job.find("h3" ,class_="joblist-comp-name")
     company_name=company_name.text.strip()
     skillset = job.find("span", class_="srp-skills").text.strip().replace('','')
     more_info = job.header.h2.a['href']
 
-    dat_dict['job_post'] = job_post
+    # dat_dict['job_post'] = job_post
     dat_dict['company_name'] = company_name
     dat_dict['publish_date'] = publish_date
     dat_dict['skillset'] = skillset
@@ -71,7 +74,7 @@ for job in jobs:
     # column_1=st.columns(1)
     # with column_1:
     st.markdown("---")
-    st.subheader(job_post)
+    st.subheader(job_title)
     st.subheader(company_name)
     st.link_button("More Info",more_info,type="primary")
 
