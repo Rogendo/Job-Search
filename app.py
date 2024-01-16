@@ -14,77 +14,147 @@ st.set_page_config(page_title="Job Searches",page_icon="random",initial_sidebar_
     
 })
 
-st.header("Job Portal")
+st.header("Developer Job Portal")
 
-# url = "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&searchTextSrc=as&searchTextText=Python&txtKeywords=Python&txtLocation="
-url = "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&searchTextSrc=&searchTextText=&txtKeywords=Javascript&txtLocation="
-response = requests.get(url)
-# print(response)
+# javascript
+def javascript():
+    javascript_url = "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&searchTextSrc=&searchTextText=&txtKeywords=Javascript&txtLocation="
+    response = requests.get(javascript_url)
 
-# html = response.text.strip()
-html = response.text
-# print(html)
-soup = BeautifulSoup(html,"html.parser")
+    html_js = response.text
+    soup_js = BeautifulSoup(html_js,"html.parser")
 
 
 
-jobs=soup.find_all("li",class_="clearfix job-bx wht-shd-bx")
-# len(jobs)
+    jobs=soup_js.find_all("li",class_="clearfix job-bx wht-shd-bx")
+    for job in jobs:
+        publish_date=job.find("span", class_="sim-posted").text.strip()
+        if publish_date != "Posted few days ago":
+            continue
+        job_title = job.header.h2.text
+        # job_post  =  job.find_all("h2").text
 
-@st.cache_data
-def main():
-    pass
+        company_name = job.find("h3" ,class_="joblist-comp-name")
+        company_name=company_name.text.strip()
+        skillset = job.find("span", class_="srp-skills").text.strip().replace('','')
+        more_info = job.header.h2.a['href']
+
+        st.markdown("---")
+        st.subheader(job_title)
+        st.subheader(company_name)
+        st.link_button("More Info",more_info,type="primary")
+
+        st.write("SKILLS REQUIRED")
+        st.write(skillset)
+        st.write(publish_date)
+        st.markdown("---")
+
+# python
+def python():
+    py_url = "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&searchTextSrc=as&searchTextText=Python&txtKeywords=Python&txtLocation="
+    response = requests.get(py_url)
+    
+    html_py = response.text
+    soup_py = BeautifulSoup(html_py,"html.parser")
+
+    jobs=soup_py.find_all("li",class_="clearfix job-bx wht-shd-bx")
+    for job in jobs:
+        publish_date=job.find("span", class_="sim-posted").text.strip()
+        if publish_date != "Posted few days ago":
+            continue
+        job_title = job.header.h2.text
+        # job_post  =  job.find_all("h2").text
+
+        company_name = job.find("h3" ,class_="joblist-comp-name")
+        company_name=company_name.text.strip()
+        skillset = job.find("span", class_="srp-skills").text.strip().replace('','')
+        more_info = job.header.h2.a['href']
+
+        st.markdown("---")
+        st.subheader(job_title)
+        st.subheader(company_name)
+        st.link_button("More Info",more_info,type="primary")
+
+        st.write("SKILLS REQUIRED")
+        st.write(skillset)
+        st.write(publish_date)
+        st.markdown("---")
+
+# java
+def java():
+    java_url = "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&searchTextSrc=ft&searchTextText=&txtKeywords=java&txtLocation="
+    response = requests.get(java_url)
+   
+    html_java = response.text
+    soup_java = BeautifulSoup(html_java,"html.parser")
+
+    jobs=soup_java.find_all("li",class_="clearfix job-bx wht-shd-bx")
+    for job in jobs:
+        publish_date=job.find("span", class_="sim-posted").text.strip()
+        if publish_date != "Posted few days ago":
+            continue
+        job_title = job.header.h2.text
+        # job_post  =  job.find_all("h2").text
+
+        company_name = job.find("h3" ,class_="joblist-comp-name")
+        company_name=company_name.text.strip()
+        skillset = job.find("span", class_="srp-skills").text.strip().replace('','')
+        more_info = job.header.h2.a['href']
+
+        st.markdown("---")
+        st.subheader(job_title)
+        st.subheader(company_name)
+        st.link_button("More Info",more_info,type="primary")
+
+        st.write("SKILLS REQUIRED")
+        st.write(skillset)
+        st.write(publish_date)
+        st.markdown("---")
+# c++
+def cpp():
+    cpp_url = "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&searchTextSrc=ft&searchTextText=&txtKeywords=c%2B%2B&txtLocation="
+    response = requests.get(cpp_url)
+   
+   
+    cpp_java = response.text
+    soup_cpp = BeautifulSoup(cpp_java,"html.parser")
+
+    jobs=soup_cpp.find_all("li",class_="clearfix job-bx wht-shd-bx")
+    for job in jobs:
+        publish_date=job.find("span", class_="sim-posted").text.strip()
+        if publish_date != "Posted few days ago":
+            continue
+        job_title = job.header.h2.text
+        # job_post  =  job.find_all("h2").text
+
+        company_name = job.find("h3" ,class_="joblist-comp-name")
+        company_name=company_name.text.strip()
+        skillset = job.find("span", class_="srp-skills").text.strip().replace('','')
+        more_info = job.header.h2.a['href']
+
+       
+        st.markdown("---")
+        st.subheader(job_title)
+        st.subheader(company_name)
+        st.link_button("More Info",more_info,type="primary")
+        st.write("SKILLS REQUIRED")
+        st.write(skillset)
+        st.write(publish_date)
+        st.markdown("---")
 
 
 # sidebar filtering
-st.sidebar.header("Please Select Job Category :")
-# category=st.sidebar.multiselect(
-#     "Select year :",
-#     options=df["year"].unique(),
-#     default=None
-    
-# )
+st.sidebar.header("Base Programming Language :")
+lang=st.sidebar.selectbox('Select language',["java","python","c++","javascript"])
 
+if(lang == "javascript"):
+    javascript()
 
-master_list=[]
-dat_dict = {}
-for job in jobs:
-    publish_date=job.find("span", class_="sim-posted").text.strip()
-    if publish_date != "Posted few days ago":
-        continue
-    job_title = job.header.h2.text
-    # job_post  =  job.find_all("h2").text
+elif lang=="java":
+    java()
+elif(lang=="python"):
+    python()
 
-    company_name = job.find("h3" ,class_="joblist-comp-name")
-    company_name=company_name.text.strip()
-    skillset = job.find("span", class_="srp-skills").text.strip().replace('','')
-    more_info = job.header.h2.a['href']
-
-    # dat_dict['job_post'] = job_post
-    dat_dict['company_name'] = company_name
-    dat_dict['publish_date'] = publish_date
-    dat_dict['skillset'] = skillset
-    dat_dict['more_info'] = more_info
-    master_list.append(dat_dict)
-    # print(len(dat_dict))
-    # print(master_list)    # df = pd.DataFrame(master_list)
-
-    
-
-    # column_1=st.columns(1)
-    # with column_1:
-    st.markdown("---")
-    st.subheader(job_title)
-    st.subheader(company_name)
-    st.link_button("More Info",more_info,type="primary")
-
-    st.write("SKILLS REQUIRED")
-    st.write(skillset)
-
-
-    st.write(publish_date)
-
-   
-
-
-    st.markdown("---")
+elif(lang == "c++"):
+    cpp()
+                                                                                 
